@@ -1,0 +1,14 @@
+.home {
+	display: flex;
+	justify-content: space-between;
+}
+
+.menu {
+	background: rgba(92, 65, 42, 0.237);
+	display: flex;
+	flex-direction: column;
+	border: 10px outset var(--text-color);
+	padding: 1rem;
+
+	justify-content: center;
+}

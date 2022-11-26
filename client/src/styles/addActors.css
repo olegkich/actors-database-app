@@ -1,0 +1,21 @@
+.add-actors {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: rgba(81, 48, 13, 0.229);
+	padding: 2rem;
+	border: 2px dashed var(--text-color);
+}
+
+.upload {
+	border: 2px dotted var(--text-color);
+	padding: 1rem;
+	width: 4rem;
+	font-size: large;
+	margin: 1rem;
+}
+
+.upload:hover {
+	transition: 0.5s;
+	background: var(--hover);
+}
