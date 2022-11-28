@@ -2,6 +2,7 @@ const router = require("express").Router();
 const multer = require("multer");
 const upload = multer({ dest: "public/" });
 
+// controllers
 const {
 	addActor,
 	findActorsByKeyword,
@@ -9,6 +10,12 @@ const {
 	deleteActor,
 } = require("../controllers/actor.controller");
 
+// middleware
+const {
+	validationAddActor,
+} = require("../middleware/actorValidation.middleware");
+
+// routing
 router.post(
 	"/add",
 	upload.fields([
@@ -21,6 +28,7 @@ router.post(
 			maxCount: 3,
 		},
 	]),
+	validationAddActor,
 	addActor
 );
 

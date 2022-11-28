@@ -17,7 +17,10 @@ const actorSchema = new mongoose.Schema({
 		type: String,
 	},
 	keywords: {
-		type: [{ type: String }],
+		type: String,
+	},
+	skills: {
+		type: String,
 	},
 	photo_path: {
 		type: [{ type: String }],
@@ -27,6 +30,6 @@ const actorSchema = new mongoose.Schema({
 	},
 });
 
-actorSchema.index({ keywords: "text" });
+actorSchema.index({ skills: "text", keywords: "text" });
 
 module.exports = mongoose.model("actors", actorSchema);

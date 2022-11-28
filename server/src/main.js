@@ -28,13 +28,14 @@ db.once("connected", () => {
 
 const server = express();
 
-server.use(cors(corsOptions));
 server.use(express.json());
-server.use(router);
+server.use(cors(corsOptions));
 server.use(express.static("public/"));
+
+server.use(router);
 
 server.listen(port, () => {
 	console.log("listening on port: ", port);
 });
 
-module.exports = server;
+module.exports = { upload };

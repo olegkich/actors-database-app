@@ -5,16 +5,17 @@ import { authAdminRequest } from "../api/auth";
 export default function Auth() {
 	const navigate = useNavigate();
 
-	const [state, setState] = React.useState({
-		adminPassword: "",
-		actorPassword: "",
-	});
+	const [input, setInput] = React.useState("");
 
 	const [error, setError] = React.useState("");
 
 	const handleLogin = async () => {
+		if (input === "") {
+			setError("password cannot be empty");
+			return;
+		}
 		try {
-			const req = await authAdminRequest(state.adminPassword);
+			const req = await authAdminRequest(input);
 			if (req) {
 				navigate("admin/");
 				return;
@@ -24,35 +25,19 @@ export default function Auth() {
 		setError("Wrong Password");
 	};
 
-	const handleLoginChange = (e) => {
-		setState({
-			adminPassword: e.target.value,
-			actorPassword: state.actorPassword,
-		});
-	};
-
-	const handleOneTimeChange = (e) => {
-		setState({
-			adminPassword: state.adminPassword,
-			actorPassword: e.target.value,
-		});
+	const handleChange = (e) => {
+		setInput(e.target.value);
 	};
 
 	return (
 		<div className="column">
+			<h1 style={{ marginBottom: "1rem" }}>Actor Database</h1>
 			<input
 				placeholder="admin password"
-				value={state.adminPassword}
-				onChange={handleLoginChange}
+				value={input}
+				onChange={handleChange}
 			/>
-			<button onClick={handleLogin}>Log In as Admin</button>
-
-			<input
-				placeholder="actor password "
-				value={state.actorPassword}
-				onChange={handleOneTimeChange}
-			/>
-			<button>Login as Actor</button>
+			<button onClick={handleLogin}>Log In</button>
 			<b>{error}</b>
 		</div>
 	);
