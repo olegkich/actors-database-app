@@ -12,10 +12,20 @@ function App() {
 			<div className="App">
 				<Routes>
 					<Route element={<Auth />} path="/" />
-					<Route element={<Home />} path="/admin" />
-					<Route element={<AddActors />} path="/admin/add" />
-					<Route element={<FindActors />} path="/admin/find" />
-					<Route element={<UpdateActors />} path="/admin/update" />
+					{localStorage.getItem("token") ? (
+						<>
+							<Route element={<Home />} path="/admin" />
+							<Route element={<AddActors />} path="/admin/add" />
+							<Route
+								element={<FindActors />}
+								path="/admin/find"
+							/>
+							<Route
+								element={<UpdateActors />}
+								path="/admin/update"
+							/>
+						</>
+					) : null}
 				</Routes>
 			</div>
 		</BrowserRouter>

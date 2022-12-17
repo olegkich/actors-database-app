@@ -4,7 +4,10 @@ import { URL_ADMIN } from "../const";
 export const authAdminRequest = async (password) => {
 	const request = await axios.post(URL_ADMIN, { password });
 
-	if (request.status === 200) {
+	console.log(request.data);
+
+	if (request.status === 200 && request.data) {
+		localStorage.setItem("token", request.data.token);
 		return true;
 	}
 };

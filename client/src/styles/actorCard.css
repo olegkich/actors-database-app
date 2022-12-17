@@ -1,0 +1,13 @@
+.actor-card {
+	border: 1px solid var(--text-color);
+	padding: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.actor-card__image {
+	height: 180px;
+	width: 180px;
+	border-radius: 5px;
+}

@@ -45,7 +45,7 @@ const findActorsByKeyword = async (req, res) => {
 
 	let actors = [];
 
-	if (name) {
+	if (name && name !== "") {
 		actors = await model.findOne({ name });
 		res.json(actors);
 		return;
@@ -58,9 +58,9 @@ const findActorsByKeyword = async (req, res) => {
 	}
 
 	if (keywords || skills || age) {
+		console.log("called", req.body);
 		actors = await model.find({
 			$text: { $search: keywords + " " + skills },
-			age,
 		});
 	}
 
@@ -79,6 +79,52 @@ const deleteActor = async (req, res) => {
 	const deleteActor = await model.deleteOne({ name });
 };
 
-const updateActor = async (req, res) => {};
+const updateActor = async (req, res) => {
+	const { id } = req.params;
 
-module.exports = { deleteActor, addActor, findActorsByKeyword, findAllActors };
+	const candidate = await model.findById(id);
+
+	if (!candidate) {
+		res.send("This actor does not exist").status(403);
+		return;
+	}
+
+	const { name, age, contacts, description } = req.body;
+
+	const keywords = req.body.keywords;
+	const skills = req.body.skills;
+
+	let photos;
+	let video;
+
+	if (req.files) {
+		if (req.files.photos) {
+			photos = req.files.photos.map((i) => i.filename);
+		}
+
+		if (req.files.video) {
+			video = req.files.video[0].filename;
+		}
+	}
+
+	await model.updateOne(id, {
+		name,
+		age,
+		keywords,
+		skills,
+		photo_path: photos,
+		video_path: video,
+		contacts,
+		description,
+	});
+
+	res.send("updated").status(201);
+};
+
+module.exports = {
+	deleteActor,
+	addActor,
+	findActorsByKeyword,
+	findAllActors,
+	updateActor,
+};

@@ -37,5 +37,3 @@ server.use(router);
 server.listen(port, () => {
 	console.log("listening on port: ", port);
 });
-
-module.exports = { upload };

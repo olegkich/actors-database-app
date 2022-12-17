@@ -8,6 +8,7 @@ const {
 	findActorsByKeyword,
 	findAllActors,
 	deleteActor,
+	updateActor,
 } = require("../controllers/actor.controller");
 
 // middleware
@@ -17,7 +18,7 @@ const {
 
 // routing
 router.post(
-	"/add",
+	"/",
 	upload.fields([
 		{
 			name: "video",
@@ -33,6 +34,8 @@ router.post(
 );
 
 router.post("/find", findActorsByKeyword);
-router.get("/all", findAllActors);
+router.get("/", findAllActors);
+router.delete("/:id", deleteActor);
+router.put("/:id", updateActor);
 
 module.exports = router;

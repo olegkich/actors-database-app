@@ -17,6 +17,7 @@ export default function Auth() {
 		try {
 			const req = await authAdminRequest(input);
 			if (req) {
+				setInput("");
 				navigate("admin/");
 				return;
 			}
