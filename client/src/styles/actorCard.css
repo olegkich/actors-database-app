@@ -1,13 +1,54 @@
 .actor-card {
-	border: 1px solid var(--text-color);
+	border-radius: 15px;
+	border: 2px solid var(--text-color);
 	padding: 10px;
+	margin: 1rem 0rem;
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-evenly;
+	background: rgba(68, 44, 44, 0.296);
+	width: 100%;
+	font-size: medium;
+	box-shadow: 1px 5px 20px 5px rgba(196, 145, 68, 0.245);
+	max-width: fit-content;
+}
+
+.actor-card__info {
+	text-align: left;
+	border-radius: 15px;
+	padding: 5px;
+	width: 450px;
 }
 
 .actor-card__image {
-	height: 180px;
-	width: 180px;
-	border-radius: 5px;
+	height: 300px;
+	width: 300px;
+	border-radius: 20px;
+}
+
+.actor-card__description {
+	border: 1px dashed var(--text-color);
+	padding: 0.5rem;
+}
+
+.actor-card__keywords {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+.actor-card__keywords-keyword {
+	border: 0.5px solid var(--text-color);
+	border-radius: 25px;
+	margin: 0.3rem;
+	padding: 0.5rem;
+}
+
+.actor-card__skills {
+	display: flex;
+	flex-direction: column;
+}
+
+.actor-card__skills-skill {
+	border-bottom: 1px dotted var(--text-color);
 }

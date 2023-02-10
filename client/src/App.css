@@ -17,6 +17,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	overflow-y: hidden;
 }
 
 button {
@@ -37,9 +38,11 @@ button:hover {
 	transition: 0.3s;
 }
 
-h1 {
-	margin: 0;
-	padding: 0;
+h1,
+h2,
+h3 {
+	margin: 0.3rem;
+	padding: 0.3rem;
 }
 
 input {
@@ -74,4 +77,42 @@ input:focus {
 .column {
 	display: flex;
 	flex-direction: column;
+}
+
+a {
+	color: rgb(255, 240, 141);
+	margin: 1rem;
+
+	cursor: pointer;
+	font-size: larger;
+	user-select: none;
+}
+
+a:hover {
+	background: var(--hover);
+	transition: 0.3s;
+}
+
+hr {
+	color: rgba(125, 87, 65, 0.593);
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
 }

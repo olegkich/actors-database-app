@@ -79,40 +79,43 @@ export default function FindActors() {
 			return;
 		}
 
-		setActors([...request.data]);
-
-		console.log(actors);
+		if (Array.isArray(request.data)) {
+			setActors([...request.data]);
+		} else {
+			console.log(request.data);
+			setActors([request.data]);
+		}
 	};
 
 	return (
-		<>
+		<div className="find-actors__container">
 			<div className="find-actors">
-				<h2>FindActors</h2>
+				<h2>Пошук Акторів</h2>
 				<input
-					placeholder="Actor Name"
+					placeholder="Ім'я актора"
 					id="name"
 					value={values.name}
 					onChange={handleChange}
 				/>
 				<input
-					placeholder="Actor Age"
+					placeholder="Вік актора"
 					id="age"
 					value={values.age}
 					onChange={handleChange}
 				/>
 				<input
-					placeholder="keywords"
+					placeholder="Ключові слова"
 					id="keywords"
 					value={values.keywords}
 					onChange={handleChange}
 				/>
 				<input
-					placeholder="skills"
+					placeholder="Навички"
 					id="skills"
 					value={values.skills}
 					onChange={handleChange}
 				/>
-				<button onClick={handleSubmit}>Find</button>
+				<button onClick={handleSubmit}>Знайти</button>
 			</div>
 			<div className="actors-list">
 				{actors.length >= 1 ? (
@@ -123,15 +126,15 @@ export default function FindActors() {
 							description={i.description}
 							contacts={i.contacts}
 							photos={i.photo_path || null}
-							video={i.video || null}
+							video={i.video_path || null}
 							keywords={i.keywords}
 							skills={i.skills}
 						/>
 					))
 				) : (
-					<p>None actors found.</p>
+					<p>Акторів не знайдено.</p>
 				)}
 			</div>
-		</>
+		</div>
 	);
 }

@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { addActor } from "../api/actors";
 import "../styles/addActors.css";
 
 function AddActors() {
+	const navigate = useNavigate();
+
 	const [values, setValues] = React.useState({
 		name: "",
 		age: "",
@@ -20,7 +23,6 @@ function AddActors() {
 	const [error, setError] = React.useState("");
 
 	const handleChange = (e) => {
-		console.log(e.currentTarget.id);
 		switch (e.currentTarget.id) {
 			case "name":
 				if (e.currentTarget.value.length === 30) {
@@ -114,48 +116,86 @@ function AddActors() {
 	};
 
 	const selectPhotos = (e) => {
-		if (e.target.files.length > 3) {
+		setError("");
+
+		const photos = e.target.files;
+
+		if (photos.length > 3) {
+			setError("Помилка - Максимум 3 фото.");
 			return;
 		}
+
+		for (let i = 0; i < e.target.files.length; i++) {
+			if (
+				photos[i].type !== "image/jpeg" &&
+				photos[i].type !== "image/png" &&
+				photos[i].type !== "image/jpg"
+			) {
+				setError(
+					"Розширення фото не підтримується. Тільки JPG (jpeg) або PNG"
+				);
+			}
+		}
+
 		setPhotos(e.target.files);
-		console.log(e.target.files);
 	};
 
 	const selectVideo = (e) => {
 		if (e.target.files[0].type !== "video/mp4") {
-			console.log("nope");
+			setError("Помилка - данний тип відео не підтримується. Тільки MP4");
 			return;
 		}
 		setVideo(e.target.files[0]);
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
 		const formData = new FormData();
 
-		if (values.name.length < 4) {
-			setError("name is too short, 4 characters minimum.");
+		if (values.name.length < 3) {
+			setError("Помилка - ім'я закоротке. (3 символа мінімум.) ");
 			return;
 		}
 
 		if (values.age === "") {
-			setError("age cannot be empty");
+			setError("Помилка - вік не може бути пустий");
 			return;
 		}
 
 		formData.append("name", values.name);
 		formData.append("age", Number(values.age));
-		formData.append("contacts", values.contacts);
-		formData.append("description", values.description);
-		for (const photo of photos) {
-			formData.append("photos", photo);
+
+		if (values.contacts !== "") {
+			formData.append("contacts", values.contacts);
 		}
-		formData.append("video", video);
-		formData.append("keywords", values.keywords);
-		formData.append("skills", values.skills);
 
-		console.log(formData);
+		if (values.description !== "") {
+			formData.append("description", values.description);
+		}
 
-		addActor(formData);
+		if (photos) {
+			for (const photo of photos) {
+				formData.append("photos", photo);
+			}
+		}
+
+		if (video) {
+			formData.append("video", video);
+		}
+
+		if (values.keywords !== "") {
+			formData.append("keywords", values.keywords);
+		}
+
+		if (values.skills !== "") {
+			formData.append("skills", values.skills);
+		}
+
+		const request = await addActor(formData);
+		if (request.status) {
+			navigate(-1);
+		} else {
+			setError(request.message);
+		}
 	};
 
 	return (
@@ -165,19 +205,19 @@ function AddActors() {
 				<div className="flex">
 					<div className="column">
 						<input
-							placeholder="Actor's Name"
+							placeholder="Ім'я Актора"
 							onChange={handleChange}
 							value={values.name}
 							id="name"
 						/>
 						<input
-							placeholder="Actor's Age"
+							placeholder="Вік Актора"
 							onChange={handleChange}
 							value={values.age}
 							id="age"
 						/>
 						<input
-							placeholder="Contacts"
+							placeholder="Контакти"
 							onChange={handleChange}
 							value={values.contacts}
 							id="contacts"
@@ -185,19 +225,19 @@ function AddActors() {
 					</div>
 					<div className="column">
 						<input
-							placeholder="Keywords"
+							placeholder="Ключові слова"
 							onChange={handleChange}
 							value={values.keywords}
 							id="keywords"
 						/>
 						<input
-							placeholder="Description"
+							placeholder="Опис актора"
 							onChange={handleChange}
 							value={values.description}
 							id="description"
 						/>
 						<input
-							placeholder="Skills"
+							placeholder="Навички"
 							onChange={handleChange}
 							value={values.skills}
 							id="skills"
@@ -206,7 +246,7 @@ function AddActors() {
 				</div>
 				<div>
 					<label className="upload picture">
-						Upload Photos
+						Загрузити Фото
 						<input
 							placeholder=""
 							name="photos"
@@ -216,7 +256,7 @@ function AddActors() {
 						/>
 					</label>
 					<label className="upload picture">
-						Upload Video
+						Загрузити відео
 						<input
 							placeholder=""
 							name="video"
@@ -224,9 +264,10 @@ function AddActors() {
 							onChange={selectVideo}
 						/>
 					</label>
-					<button onClick={handleSubmit}>Create</button>
+					<button onClick={handleSubmit}>Створити</button>
 				</div>
 			</div>
+			<h2>{error}</h2>
 		</div>
 	);
 }

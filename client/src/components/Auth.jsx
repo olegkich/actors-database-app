@@ -34,6 +34,7 @@ export default function Auth() {
 		<div className="column">
 			<h1 style={{ marginBottom: "1rem" }}>Actor Database</h1>
 			<input
+				type="password"
 				placeholder="admin password"
 				value={input}
 				onChange={handleChange}
