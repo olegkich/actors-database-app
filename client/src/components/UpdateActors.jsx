@@ -4,6 +4,8 @@ import { findActors } from "../api/actors";
 import ActorCard from "./ActorCard";
 import Modal from "./Modal";
 import "../styles/updateActors.css";
+import DeleteActorModal from "./DeleteActorModal";
+import UpdateActorModal from "./UpdateActorModal";
 
 export default function UpdateActors() {
 	const [name, setName] = useState("");
@@ -54,81 +56,12 @@ export default function UpdateActors() {
 		<div>
 			{modal.shouldShow ? (
 				modal.type === "DELETE" ? (
-					<Modal>
-						<h3>Точно видалити актора?</h3>
-						<div>
-							<button onClick={handleDelete}>Так</button>
-							<button
-								onClick={() =>
-									setModal({ shouldShow: false, type: null })
-								}
-							>
-								Ні
-							</button>
-						</div>
-					</Modal>
+					<DeleteActorModal
+						handleDelete={handleDelete}
+						setModal={setModal}
+					/>
 				) : (
-					<Modal>
-						Оновити Актора
-						<div>
-							<div className="flex">
-								<div className="column">
-									<input
-										placeholder="Ім'я Актора"
-										onChange={handleChange}
-										id="name"
-									/>
-									<input
-										placeholder="Вік Актора"
-										onChange={handleChange}
-										id="age"
-									/>
-									<input
-										placeholder="Контакти"
-										onChange={handleChange}
-										id="contacts"
-									/>
-								</div>
-								<div className="column">
-									<input
-										placeholder="Ключові слова"
-										onChange={handleChange}
-										id="keywords"
-									/>
-									<input
-										placeholder="Опис актора"
-										onChange={handleChange}
-										id="description"
-									/>
-									<input
-										placeholder="Навички"
-										onChange={handleChange}
-										id="skills"
-									/>
-								</div>
-							</div>
-							<div>
-								<label className="upload picture">
-									Загрузити Фото
-									<input
-										placeholder=""
-										name="photos"
-										type="file"
-										multiple={true}
-									/>
-								</label>
-								<label className="upload picture">
-									Загрузити відео
-									<input
-										placeholder=""
-										name="video"
-										type="file"
-									/>
-								</label>
-								<button>Створити</button>
-							</div>
-						</div>
-					</Modal>
+					<UpdateActorModal />
 				)
 			) : null}
 			<input placeholder="Ім'я" value={name} onChange={handleChange} />

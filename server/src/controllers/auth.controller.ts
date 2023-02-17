@@ -9,8 +9,6 @@ const authorization = async (
 ) => {
 	const { password } = req.body;
 
-	console.log(password);
-
 	const hashedPassword = await bcrypt.hash(process.env.PASSWORD!, 5);
 
 	const isAuthorized = await bcrypt.compare(password, hashedPassword);
