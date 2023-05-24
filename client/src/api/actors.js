@@ -51,3 +51,17 @@ export const deleteActor = async (name) => {
 
 	return false;
 };
+
+export const updateActor = async (data, id) => {
+	console.log(data);
+
+	const request = await axios.put(`${URL_ADD}${id}`, data, config);
+
+	console.log(request);
+
+	if (request.status === 200) {
+		return { status: true, message: "" };
+	}
+
+	return { status: false, message: request.data };
+};

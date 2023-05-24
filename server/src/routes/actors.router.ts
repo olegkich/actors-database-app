@@ -34,6 +34,20 @@ router.post(
 router.post("/find", findActorsByKeyword);
 router.get("/", findAllActors);
 router.delete("/:name", deleteActor);
-router.put("/:id", updateActor);
+router.put(
+	"/:id",
+	upload.fields([
+		{
+			name: "video",
+			maxCount: 1,
+		},
+		{
+			name: "photos",
+			maxCount: 3,
+		},
+	]),
+	validationAddActor,
+	updateActor
+);
 
 export { router };

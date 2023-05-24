@@ -30,8 +30,6 @@ export default function UpdateActors() {
 		} else {
 			setError("Помилка: сервер");
 		}
-
-		console.log(actor);
 	};
 
 	const handleDelete = async () => {
@@ -54,14 +52,17 @@ export default function UpdateActors() {
 
 	return (
 		<div>
-			{modal.shouldShow ? (
+			{modal.shouldShow && actor !== null ? (
 				modal.type === "DELETE" ? (
 					<DeleteActorModal
 						handleDelete={handleDelete}
 						setModal={setModal}
 					/>
 				) : (
-					<UpdateActorModal />
+					<UpdateActorModal
+						goBack={() => setModal(false, null)}
+						actor={actor}
+					/>
 				)
 			) : null}
 			<input placeholder="Ім'я" value={name} onChange={handleChange} />

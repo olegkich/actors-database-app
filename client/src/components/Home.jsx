@@ -18,7 +18,7 @@ function Home() {
 					Показати всіх акторів
 				</button>
 				<button onClick={() => navigate("update")}>
-					ВидаЛити актора
+					Оновити актора
 				</button>
 				<button onClick={() => navigate("help")}>Інструкція</button>
 			</div>

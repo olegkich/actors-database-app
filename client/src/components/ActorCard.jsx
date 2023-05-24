@@ -101,7 +101,6 @@ function ActorCard({
 					alt=""
 				/>
 			) : null}
-			{console.log(video)}
 		</div>
 	);
 }

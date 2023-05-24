@@ -4,6 +4,12 @@ import { addActor } from "../api/actors";
 import "../styles/addActors.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import {
+	ERR_AGE_EMPTY,
+	ERR_INVALID_VIDEO_TYPE,
+	ERR_NAME_TOO_SHORT,
+	ERR_TOO_MANY_PHOTOS,
+} from "../const";
 
 function AddActors() {
 	const navigate = useNavigate();
@@ -35,6 +41,7 @@ function AddActors() {
 			photos: null,
 			video: null,
 		},
+
 		onSubmit: async function (values) {
 			const photos = values.photos;
 			const video = values.video;
@@ -42,12 +49,12 @@ function AddActors() {
 			const formData = new FormData();
 
 			if (values.name.length < 3) {
-				setError("Помилка - ім'я закоротке. (3 символа мінімум.) ");
+				setError(ERR_NAME_TOO_SHORT);
 				return;
 			}
 
 			if (values.age === "") {
-				setError("Помилка - вік не може бути пустий");
+				setError(ERR_AGE_EMPTY);
 				return;
 			}
 
@@ -89,106 +96,13 @@ function AddActors() {
 		},
 	});
 
-	// const handleChange = (e) => {
-	// 	switch (e.currentTarget.id) {
-	// 		case "name":
-	// 			if (e.currentTarget.value.length === 30) {
-	// 				return;
-	// 			}
-	// 			setValues({
-	// 				name: e.currentTarget.value,
-	// 				age: values.age,
-	// 				keywords: values.keywords,
-	// 				skills: values.skills,
-	// 				description: values.description,
-	// 				contacts: values.contacts,
-	// 			});
-	// 			break;
-
-	// 		case "age":
-	// 			if (
-	// 				e.currentTarget.value.length === 3 ||
-	// 				isNaN(e.currentTarget.value)
-	// 			) {
-	// 				return;
-	// 			}
-	// 			setValues({
-	// 				name: values.name,
-	// 				age: e.currentTarget.value,
-	// 				keywords: values.keywords,
-	// 				skills: values.skills,
-	// 				description: values.description,
-	// 				contacts: values.contacts,
-	// 			});
-	// 			break;
-
-	// 		case "keywords":
-	// 			if (e.currentTarget.value.length === 200) {
-	// 				return;
-	// 			}
-	// 			setValues({
-	// 				name: values.name,
-	// 				age: values.age,
-	// 				keywords: e.currentTarget.value,
-	// 				skills: values.skills,
-	// 				description: values.description,
-	// 				contacts: values.contacts,
-	// 			});
-	// 			break;
-
-	// 		case "skills":
-	// 			if (e.currentTarget.value.length === 200) {
-	// 				return;
-	// 			}
-	// 			setValues({
-	// 				name: values.name,
-	// 				age: values.age,
-	// 				keywords: values.keywords,
-	// 				skills: e.currentTarget.value,
-	// 				description: values.description,
-	// 				contacts: values.contacts,
-	// 			});
-	// 			break;
-
-	// 		case "description":
-	// 			if (e.currentTarget.value.length === 200) {
-	// 				return;
-	// 			}
-	// 			setValues({
-	// 				name: values.name,
-	// 				age: values.age,
-	// 				keywords: values.keywords,
-	// 				skills: values.skills,
-	// 				description: e.currentTarget.value,
-	// 				contacts: values.contacts,
-	// 			});
-	// 			break;
-
-	// 		case "contacts":
-	// 			if (e.currentTarget.value.length === 50) {
-	// 				return;
-	// 			}
-	// 			setValues({
-	// 				name: values.name,
-	// 				age: values.age,
-	// 				keywords: values.keywords,
-	// 				skills: values.skills,
-	// 				description: values.description,
-	// 				contacts: e.currentTarget.value,
-	// 			});
-	// 			break;
-	// 		default:
-	// 			break;
-	// 	}
-	// };
-
 	const selectPhotos = (e) => {
 		setError("");
 
 		const photos = e.target.files;
 
 		if (photos.length > 3) {
-			setError("Помилка - Максимум 3 фото.");
+			setError(ERR_TOO_MANY_PHOTOS);
 			return;
 		}
 
@@ -198,9 +112,7 @@ function AddActors() {
 				photos[i].type !== "image/png" &&
 				photos[i].type !== "image/jpg"
 			) {
-				setError(
-					"Розширення фото не підтримується. Тільки JPG (jpeg) або PNG"
-				);
+				setError();
 			}
 		}
 
@@ -210,63 +122,13 @@ function AddActors() {
 
 	const selectVideo = (e) => {
 		if (e.target.files[0].type !== "video/mp4") {
-			setError("Помилка - данний тип відео не підтримується. Тільки MP4");
+			setError(ERR_INVALID_VIDEO_TYPE);
 			return;
 		}
 		formik.setFieldValue("video", e.target.files[0]);
 
 		// setVideo(e.target.files[0]);
 	};
-
-	// const handleSubmit = async () => {
-	// 	const formData = new FormData();
-
-	// 	if (values.name.length < 3) {
-	// 		setError("Помилка - ім'я закоротке. (3 символа мінімум.) ");
-	// 		return;
-	// 	}
-
-	// 	if (values.age === "") {
-	// 		setError("Помилка - вік не може бути пустий");
-	// 		return;
-	// 	}
-
-	// 	formData.append("name", values.name);
-	// 	formData.append("age", Number(values.age));
-
-	// 	if (values.contacts !== "") {
-	// 		formData.append("contacts", values.contacts);
-	// 	}
-
-	// 	if (values.description !== "") {
-	// 		formData.append("description", values.description);
-	// 	}
-
-	// 	if (photos) {
-	// 		for (const photo of photos) {
-	// 			formData.append("photos", photo);
-	// 		}
-	// 	}
-
-	// 	if (video) {
-	// 		formData.append("video", video);
-	// 	}
-
-	// 	if (values.keywords !== "") {
-	// 		formData.append("keywords", values.keywords);
-	// 	}
-
-	// 	if (values.skills !== "") {
-	// 		formData.append("skills", values.skills);
-	// 	}
-
-	// 	const request = await addActor(formData);
-	// 	if (request.status) {
-	// 		navigate(-1);
-	// 	} else {
-	// 		setError(request.message);
-	// 	}
-	// };
 
 	return (
 		<div className="add-actors">
@@ -350,7 +212,7 @@ function AddActors() {
 					</button>
 				</div>
 			</form>
-			<h2>{error}</h2>
+			
 		</div>
 	);
 }

@@ -141,7 +141,19 @@ const updateActor = async (req: any, res: Response) => {
 		}
 	}
 
-	await model.updateOne(
+	console.log(req.body);
+
+	console.log(
+		name,
+		age,
+		keywords,
+		skills,
+		contacts,
+		description,
+		video,
+		photos
+	);
+	const result = await model.updateOne(
 		{ filter: id },
 		{
 			name,
@@ -152,9 +164,10 @@ const updateActor = async (req: any, res: Response) => {
 			video_path: video,
 			contacts,
 			description,
-			marked,
 		}
 	);
+
+	console.log(result);
 
 	res.send("updated").status(201);
 };
